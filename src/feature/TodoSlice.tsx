@@ -16,7 +16,7 @@ export const getTodos = createAsyncThunk(
     'todos/fetch',
     async () => {
         const data = await fetchTodos();
-        return data as Todo[]
+        return data
     }
 );
 
@@ -25,7 +25,7 @@ export const createTodo = createAsyncThunk(
     async ({ title, description }: { title: string; description: string }) => {
         await addTodo(title, description);
         const data = await fetchTodos();
-        return data as Todo[]
+        return data
     }
 );
 
