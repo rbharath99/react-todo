@@ -1,7 +1,7 @@
 import './App.css'
 import Done from './components/Done'
 import InProgress from './components/InProgress'
-import Open from './components/open'
+import Open from './components/Open'
 
 function App() {
   return (
