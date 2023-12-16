@@ -1,5 +1,3 @@
-export interface Todo {
-    id: number,
-    title: string
-    description: string
-}
+import { Database } from "../../Supabase";
+
+export type Todo = Database['public']['Tables']['todo']['Row']
