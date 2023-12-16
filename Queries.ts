@@ -1,9 +1,9 @@
 import { supabase } from "./SupabaseApi"
 import { Todo } from "./src/models/Todo"
 
-export const fetchTodos = async (): Promise<Todo[]> => {
-    const { data: todo } = await supabase.from('todo').select('*')
-    return todo as Todo[]
+export const fetchTodos = async (): Promise<Todo[] | null> => {
+    const { data: todo } = await supabase.from('todo').select('*').returns<Todo[] | null>()
+    return todo
 }
 
 export const addTodo = async (title: string, description: string): Promise<void> => {

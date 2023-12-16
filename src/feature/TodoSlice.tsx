@@ -3,7 +3,7 @@ import { addTodo, fetchTodos } from '../../Queries';
 import { Todo } from '../models/Todo';
 
 const initialState: {
-    todos: Todo[];
+    todos: Todo[] | null;
     isLoading: boolean;
     error: string | undefined;
 } = {
