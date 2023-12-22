@@ -8,15 +8,12 @@ import { TodoStatus } from '../constants/TodoStatus';
 function InProgress() {
     const inProgressTodos = useSelector((state: RootState) => state.todos.columns.inProgressColumn)
     const dispatch = useDispatch<AppDispatch>()
-    const handleClick = (id: number) => {
-        dispatch(moveTodo({ id: id, to: TodoStatus.Done }))
-    }
     return (
         <>
             <div className="container">
                 <div className="Column">
                     {inProgressTodos?.map((todo) => (
-                        <TodoCard todo={todo} key={todo.id} onCardClick={() => handleClick} />
+                        <TodoCard todo={todo} key={todo.id} onCardClick={() => dispatch(moveTodo({ id: todo.id, to: TodoStatus.Done }))} />
                     ))}
                 </div>
             </div>

@@ -17,9 +17,6 @@ function Open() {
         setModalOpen(false);
     }
     const dispatch = useDispatch<AppDispatch>()
-    const handleClick = (id: number) => {
-        dispatch(moveTodo({ id: id, to: TodoStatus.In_Progress }))
-    }
     return (
         <>
             <div className="container">
@@ -27,7 +24,7 @@ function Open() {
                 <Modal isOpen={isModalOpen} onClose={closeModal} />
                 <div className="Column">
                     {todos?.map((todo) => (
-                        <TodoCard todo={todo} key={todo.id} onCardClick={() => handleClick(todo.id)}/>
+                        <TodoCard todo={todo} key={todo.id} onCardClick={() => dispatch(moveTodo({ id: todo.id, to: TodoStatus.In_Progress }))} />
                     ))}
                 </div>
             </div>
