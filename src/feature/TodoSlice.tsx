@@ -7,11 +7,13 @@ interface TodoState {
     todos: Todo[] | null;
     isLoading: boolean;
     error: string | null;
-    columns: {
-        openColumn: Todo[] | null;
-        inProgressColumn: Todo[] | null;
-        completedColumn: Todo[] | null;
-    }
+    columns: Columns;
+}
+
+interface Columns {
+    openColumn: Todo[] | null;
+    inProgressColumn: Todo[] | null;
+    completedColumn: Todo[] | null;
 }
 
 const initialState: TodoState = {
