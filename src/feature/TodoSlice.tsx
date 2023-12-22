@@ -16,6 +16,11 @@ interface Columns {
     completedColumn: Todo[] | null;
 }
 
+interface MoveTodoAction {
+    id: number;
+    to: TodoStatus;
+}
+
 const initialState: TodoState = {
     todos: [],
     isLoading: false,
@@ -48,7 +53,7 @@ const todoSlice = createSlice({
     name: 'todos',
     initialState,
     reducers: {
-        moveTodo: (state, action: PayloadAction<{ id: number, to: TodoStatus }>) => {
+        moveTodo: (state, action: PayloadAction<MoveTodoAction>) => {
             const to = action.payload.to
             if (to === TodoStatus.In_Progress) {         
                 const todo = state.columns.openColumn?.find((todo) => todo.id === action.payload.id)
