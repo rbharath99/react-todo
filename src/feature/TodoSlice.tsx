@@ -21,6 +21,11 @@ interface MoveTodoAction {
     to: TodoStatus;
 }
 
+interface CreateTodoPayload {
+    title: string;
+    description: string;
+}
+
 const initialState: TodoState = {
     todos: [],
     isLoading: false,
@@ -42,7 +47,7 @@ export const getTodos = createAsyncThunk(
 
 export const createTodo = createAsyncThunk(
     'todos/create',
-    async ({ title, description }: { title: string; description: string }) => {
+    async ({ title, description }: CreateTodoPayload) => {
         await addTodo(title, description);
         const data = await fetchTodos();
         return data
@@ -55,13 +60,13 @@ const todoSlice = createSlice({
     reducers: {
         moveTodo: (state, action: PayloadAction<MoveTodoAction>) => {
             const to = action.payload.to
-            if (to === TodoStatus.In_Progress) {         
+            if (to === TodoStatus.In_Progress) {
                 const todo = state.columns.openColumn?.find((todo) => todo.id === action.payload.id)
                 state.columns.inProgressColumn?.push(todo!)
                 state.columns.openColumn = state.columns.openColumn?.filter((todo) => todo.id !== action.payload.id) || null
-            } 
+            }
             if (to === TodoStatus.Done) {
-                const todo = state.columns.inProgressColumn?.find((todo) => todo.id === action.payload.id)   
+                const todo = state.columns.inProgressColumn?.find((todo) => todo.id === action.payload.id)
                 state.columns.completedColumn?.push(todo!)
                 state.columns.inProgressColumn = state.columns.inProgressColumn?.filter((todo) => todo.id !== action.payload.id) || null
             }
