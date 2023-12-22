@@ -8,7 +8,7 @@ import { moveTodo } from '../feature/TodoSlice';
 import { TodoStatus } from '../constants/TodoStatus';
 
 function Open() {
-    const todos = useSelector((state: RootState) => state.todos.todos)
+    const todos = useSelector((state: RootState) => state.todos.columns.openColumn)
     const [isModalOpen, setModalOpen] = useState<boolean>(false);
     const openModal = () => {
         setModalOpen(true);

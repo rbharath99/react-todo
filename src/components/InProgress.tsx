@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import '../components/Column.css'
-import { AppDispatch, RootState } from '../../app/Store';
 import TodoCard from './TodoCard';
+import { AppDispatch, RootState } from '../../app/Store';
 import { moveTodo } from '../feature/TodoSlice';
 import { TodoStatus } from '../constants/TodoStatus';
 

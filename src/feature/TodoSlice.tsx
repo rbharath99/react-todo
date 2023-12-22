@@ -49,15 +49,16 @@ const todoSlice = createSlice({
     initialState,
     reducers: {
         moveTodo: (state, action: PayloadAction<{ id: number, to: TodoStatus }>) => {
-            const todo = state.todos?.find((todo) => todo.id === action.payload.id)
             const to = action.payload.to
-            state.todos = state.todos?.filter((todo) => todo.id !== action.payload.id) || null
-            if (to == TodoStatus.Open) {
-                state.columns.openColumn?.push(todo!)
-            } else if (to === TodoStatus.In_Progress) {
+            if (to === TodoStatus.In_Progress) {         
+                const todo = state.columns.openColumn?.find((todo) => todo.id === action.payload.id)
                 state.columns.inProgressColumn?.push(todo!)
-            } else if (to === TodoStatus.Done) {
+                state.columns.openColumn = state.columns.openColumn?.filter((todo) => todo.id !== action.payload.id) || null
+            } 
+            if (to === TodoStatus.Done) {
+                const todo = state.columns.inProgressColumn?.find((todo) => todo.id === action.payload.id)   
                 state.columns.completedColumn?.push(todo!)
+                state.columns.inProgressColumn = state.columns.inProgressColumn?.filter((todo) => todo.id !== action.payload.id) || null
             }
         }
     },
