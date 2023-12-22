@@ -1,6 +1,10 @@
+import { useSelector } from 'react-redux';
 import '../components/Column.css'
+import { RootState } from '../../app/Store';
 
 function InProgress() {
+    const inProgressColumn = useSelector((state: RootState) => state.todos.columns.inProgressColumn)
+    console.log(inProgressColumn)
     return (
         <>
             <div className="container">

@@ -7,7 +7,6 @@ import TodoCard from './TodoCard';
 
 function Open() {
     const todos = useSelector((state: RootState) => state.todos.todos)
-    console.log(todos)
     const [isModalOpen, setModalOpen] = useState<boolean>(false);
     const openModal = () => {
         setModalOpen(true);
