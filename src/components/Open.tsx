@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import '../components/Column.css'
 import Modal from './AddTask';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../app/Store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../app/Store';
 import TodoCard from './TodoCard';
+import { moveTodo } from '../feature/TodoSlice';
+import { TodoStatus } from '../constants/TodoStatus';
 
 function Open() {
     const todos = useSelector((state: RootState) => state.todos.todos)
@@ -14,6 +16,10 @@ function Open() {
     const closeModal = () => {
         setModalOpen(false);
     }
+    const dispatch = useDispatch<AppDispatch>()
+    const handleClick = (id: number) => {
+        dispatch(moveTodo({ id: id, to: TodoStatus.In_Progress }))
+    }
     return (
         <>
             <div className="container">
@@ -21,7 +27,7 @@ function Open() {
                 <Modal isOpen={isModalOpen} onClose={closeModal} />
                 <div className="Column">
                     {todos?.map((todo) => (
-                        <TodoCard todo={todo} key={todo.id} />
+                        <TodoCard todo={todo} key={todo.id} onCardClick={() => handleClick(todo.id)}/>
                     ))}
                 </div>
             </div>
