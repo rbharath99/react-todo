@@ -6,7 +6,7 @@ import { TodoStatus } from '../constants/TodoStatus';
 import { moveTodo } from '../feature/TodoSlice';
 
 function Done() {
-    const completedTodos = useSelector((state: RootState) => state.todos.columns.inProgressColumn)
+    const completedTodos = useSelector((state: RootState) => state.todos.columns.completedColumn)
     const dispatch = useDispatch<AppDispatch>()
     const handleClick = (id: number) => {
         dispatch(moveTodo({ id: id, to: TodoStatus.Done }))
