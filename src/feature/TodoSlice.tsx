@@ -90,6 +90,7 @@ const todoSlice = createSlice({
             .addCase(createTodo.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.todos = action.payload;
+                state.columns.openColumn = action.payload;
             })
     }
 });
