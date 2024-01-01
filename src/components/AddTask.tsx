@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import '../components/Modal.css';
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../app/Store";
+import { createTodo } from "../feature/TodoSlice";
 
 interface ModalProps {
     isOpen: boolean;
@@ -9,6 +12,7 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
+    const dispatch = useDispatch<AppDispatch>()
     const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(event.target.value);
     };
@@ -20,6 +24,12 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         setDescription('');
         onClose();
     }
+    const handleSubmit = () => {
+        setTitle('');
+        setDescription('');
+        dispatch(createTodo({ title: title, description: description }));
+        onClose();
+    }
     return (
         <>
             <div className={`modal ${isOpen ? 'open' : 'close'}`}>
@@ -29,7 +39,8 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     <input type="text" id="title" value={title} onChange={handleTitleChange} />
                     <label htmlFor="description">Description:</label>
                     <input type="text" id="description" value={description} onChange={handleDescriptionChange} />
-                    <button onClick={handleClose}>Close</button>
+                    <button onClick={handleSubmit}>Add Todo</button>
+                    <button onClick={handleClose}>Close</button>                  
                 </div>
             </div>
         </>
