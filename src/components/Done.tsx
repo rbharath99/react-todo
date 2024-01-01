@@ -14,7 +14,7 @@ function Done() {
     return (
         <>
             <div className="container">
-                <div className="Column">
+                <div className="column">
                     {completedTodos?.map((todo) => (
                         <TodoCard todo={todo} key={todo.id} onCardClick={() => handleClick} />
                     ))}

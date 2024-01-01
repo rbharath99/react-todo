@@ -22,7 +22,7 @@ function Open() {
             <div className="container">
                 <button type='button' onClick={openModal}>Add new task</button>
                 <Modal isOpen={isModalOpen} onClose={closeModal} />
-                <div className="Column">
+                <div className="column">
                     {todos?.map((todo) => (
                         <TodoCard todo={todo} key={todo.id} onCardClick={() => dispatch(moveTodo({ id: todo.id, to: TodoStatus.In_Progress }))} />
                     ))}

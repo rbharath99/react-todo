@@ -11,7 +11,7 @@ function InProgress() {
     return (
         <>
             <div className="container">
-                <div className="Column">
+                <div className="column">
                     {inProgressTodos?.map((todo) => (
                         <TodoCard todo={todo} key={todo.id} onCardClick={() => dispatch(moveTodo({ id: todo.id, to: TodoStatus.Done }))} />
                     ))}
