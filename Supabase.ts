@@ -13,16 +13,19 @@ export interface Database {
                 Row: {
                     description: string | null
                     id: number
+                    is_complete: boolean | null
                     title: string | null
                 }
                 Insert: {
                     description?: string | null
                     id?: never
+                    is_complete?: boolean | null
                     title?: string | null
                 }
                 Update: {
                     description?: string | null
                     id?: never
+                    is_complete?: boolean | null
                     title?: string | null
                 }
                 Relationships: []
