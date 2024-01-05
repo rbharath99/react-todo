@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../app/Store';
 import { moveTodo, updateTodoStatus } from '../feature/TodoSlice';
-import { TodoStatus } from '../constants/TodoStatus';
 
 interface TodoProps {
     todoId: number
@@ -13,26 +12,9 @@ function DropDown({ todoId, todoStatus }: TodoProps) {
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
     const [selectedOption, setSelectedOption] = useState<string>(todoStatus);
     const handleButtonClick = () => setIsDropdownOpen(!isDropdownOpen);
-    const handleOptionClick = (option: React.SetStateAction<string>) => {
-        if (todoStatus == 'OPEN' && option == 'IN_PROGRESS') {
-            dispatch(moveTodo({ id: todoId, from: TodoStatus.Open, to: TodoStatus.In_Progress }))
-            dispatch(updateTodoStatus({ id: todoId, status: TodoStatus.In_Progress }))
-        } else if (todoStatus == 'OPEN' && option == 'DONE') {
-            dispatch(moveTodo({ id: todoId, from: TodoStatus.Open, to: TodoStatus.Done }))
-            dispatch(updateTodoStatus({ id: todoId, status: TodoStatus.Done }))
-        } else if (todoStatus == 'IN_PROGRESS' && option == 'DONE') {
-            dispatch(moveTodo({ id: todoId, from: TodoStatus.In_Progress, to: TodoStatus.Done }))
-            dispatch(updateTodoStatus({ id: todoId, status: TodoStatus.Done }))
-        } else if (todoStatus == 'IN_PROGRESS' && option == 'OPEN') {
-            dispatch(moveTodo({ id: todoId, from: TodoStatus.In_Progress, to: TodoStatus.Open }))
-            dispatch(updateTodoStatus({ id: todoId, status: TodoStatus.Open }))
-        } else if (todoStatus == 'DONE' && option == 'OPEN') {
-            dispatch(moveTodo({ id: todoId, from: TodoStatus.Done, to: TodoStatus.Open }))
-            dispatch(updateTodoStatus({ id: todoId, status: TodoStatus.Open }))
-        } else {
-            dispatch(moveTodo({ id: todoId, from: TodoStatus.Done, to: TodoStatus.In_Progress }))
-            dispatch(updateTodoStatus({ id: todoId, status: TodoStatus.In_Progress }))
-        }
+    const handleOptionClick = (option: string) => {
+        dispatch(moveTodo({ id: todoId, from: todoStatus, to: option }))
+        dispatch(updateTodoStatus({ id: todoId, status: option }))
         setSelectedOption(option);
         setIsDropdownOpen(false);
     };

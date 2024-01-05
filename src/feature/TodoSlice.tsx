@@ -18,8 +18,8 @@ interface Columns {
 
 interface MoveTodoAction {
     id: number;
-    to: TodoStatus;
-    from: TodoStatus;
+    to: string;
+    from: string;
 }
 
 interface CreateTodoPayload {
@@ -76,36 +76,36 @@ const todoSlice = createSlice({
         moveTodo: (state, action: PayloadAction<MoveTodoAction>) => {
             const from = action.payload.from
             const to = action.payload.to
-            console.log(to.split('.'));
+            const id = action.payload.id
             if (to === TodoStatus.Open) {
                 if (from === TodoStatus.In_Progress) {
-                    const todo = state.columns.inProgressColumn?.find((todo) => todo.id === action.payload.id)
+                    const todo = state.columns.inProgressColumn?.find((todo) => todo.id === id)
                     state.columns.openColumn?.push(todo!)
-                    state.columns.inProgressColumn = state.columns.inProgressColumn?.filter((todo) => todo.id !== action.payload.id) || null
+                    state.columns.inProgressColumn = state.columns.inProgressColumn?.filter((todo) => todo.id !== id) || null
                 } else if (from === TodoStatus.Done) {
-                    const todo = state.columns.completedColumn?.find((todo) => todo.id === action.payload.id)
+                    const todo = state.columns.completedColumn?.find((todo) => todo.id === id)
                     state.columns.openColumn?.push(todo!)
-                    state.columns.completedColumn = state.columns.completedColumn?.filter((todo) => todo.id !== action.payload.id) || null
+                    state.columns.completedColumn = state.columns.completedColumn?.filter((todo) => todo.id !== id) || null
                 }
             } else if (to === TodoStatus.In_Progress) {
                 if (from === TodoStatus.Open) {
-                    const todo = state.columns.openColumn?.find((todo) => todo.id === action.payload.id)
+                    const todo = state.columns.openColumn?.find((todo) => todo.id === id)
                     state.columns.inProgressColumn?.push(todo!)
-                    state.columns.openColumn = state.columns.openColumn?.filter((todo) => todo.id !== action.payload.id) || null
+                    state.columns.openColumn = state.columns.openColumn?.filter((todo) => todo.id !== id) || null
                 } else if (from === TodoStatus.Done) {
-                    const todo = state.columns.completedColumn?.find((todo) => todo.id === action.payload.id)
+                    const todo = state.columns.completedColumn?.find((todo) => todo.id === id)
                     state.columns.inProgressColumn?.push(todo!)
-                    state.columns.completedColumn = state.columns.completedColumn?.filter((todo) => todo.id !== action.payload.id) || null
+                    state.columns.completedColumn = state.columns.completedColumn?.filter((todo) => todo.id !== id) || null
                 }
             } else if (to === TodoStatus.Done) {
                 if (from === TodoStatus.Open) {
-                    const todo = state.columns.openColumn?.find((todo) => todo.id === action.payload.id)
+                    const todo = state.columns.openColumn?.find((todo) => todo.id === id)
                     state.columns.completedColumn?.push(todo!)
-                    state.columns.openColumn = state.columns.openColumn?.filter((todo) => todo.id !== action.payload.id) || null
+                    state.columns.openColumn = state.columns.openColumn?.filter((todo) => todo.id !== id) || null
                 } else if (from === TodoStatus.In_Progress) {
-                    const todo = state.columns.inProgressColumn?.find((todo) => todo.id === action.payload.id)
+                    const todo = state.columns.inProgressColumn?.find((todo) => todo.id === id)
                     state.columns.completedColumn?.push(todo!)
-                    state.columns.inProgressColumn = state.columns.inProgressColumn?.filter((todo) => todo.id !== action.payload.id) || null
+                    state.columns.inProgressColumn = state.columns.inProgressColumn?.filter((todo) => todo.id !== id) || null
                 }
             }
         }
