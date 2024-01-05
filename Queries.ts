@@ -9,3 +9,7 @@ export const fetchTodos = async (): Promise<Todo[] | null> => {
 export const addTodo = async (title: string, description: string): Promise<void> => {
     await supabase.from('todo').insert({ title: title, description: description, is_complete: false })
 }
+
+export const updateTodo = async (status: string, id: number): Promise<void> => {
+    await supabase.from('todo').update({ status: status }).eq('id', id)
+}

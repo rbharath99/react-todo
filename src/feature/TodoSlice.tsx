@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { addTodo, fetchTodos } from '../../Queries';
+import { addTodo, fetchTodos, updateTodo } from '../../Queries';
 import { Todo } from '../models/Todo';
 import { TodoStatus } from '../constants/TodoStatus';
 
@@ -19,11 +19,17 @@ interface Columns {
 interface MoveTodoAction {
     id: number;
     to: TodoStatus;
+    from: TodoStatus;
 }
 
 interface CreateTodoPayload {
     title: string;
     description: string;
+}
+
+interface UpdateTodoStatusPayload {
+    id: number;
+    status: string;
 }
 
 const initialState: TodoState = {
@@ -54,21 +60,53 @@ export const createTodo = createAsyncThunk(
     }
 );
 
+export const updateTodoStatus = createAsyncThunk(
+    'todos/updateTodoStatus',
+    async ({ status, id }: UpdateTodoStatusPayload) => {
+        await updateTodo(status, id);
+        const data = await fetchTodos();
+        return data
+    }
+);
+
 const todoSlice = createSlice({
     name: 'todos',
     initialState,
     reducers: {
         moveTodo: (state, action: PayloadAction<MoveTodoAction>) => {
+            const from = action.payload.from
             const to = action.payload.to
-            if (to === TodoStatus.In_Progress) {
-                const todo = state.columns.openColumn?.find((todo) => todo.id === action.payload.id)
-                state.columns.inProgressColumn?.push(todo!)
-                state.columns.openColumn = state.columns.openColumn?.filter((todo) => todo.id !== action.payload.id) || null
-            }
-            if (to === TodoStatus.Done) {
-                const todo = state.columns.inProgressColumn?.find((todo) => todo.id === action.payload.id)
-                state.columns.completedColumn?.push(todo!)
-                state.columns.inProgressColumn = state.columns.inProgressColumn?.filter((todo) => todo.id !== action.payload.id) || null
+            console.log(to.split('.'));
+            if (to === TodoStatus.Open) {
+                if (from === TodoStatus.In_Progress) {
+                    const todo = state.columns.inProgressColumn?.find((todo) => todo.id === action.payload.id)
+                    state.columns.openColumn?.push(todo!)
+                    state.columns.inProgressColumn = state.columns.inProgressColumn?.filter((todo) => todo.id !== action.payload.id) || null
+                } else if (from === TodoStatus.Done) {
+                    const todo = state.columns.completedColumn?.find((todo) => todo.id === action.payload.id)
+                    state.columns.openColumn?.push(todo!)
+                    state.columns.completedColumn = state.columns.completedColumn?.filter((todo) => todo.id !== action.payload.id) || null
+                }
+            } else if (to === TodoStatus.In_Progress) {
+                if (from === TodoStatus.Open) {
+                    const todo = state.columns.openColumn?.find((todo) => todo.id === action.payload.id)
+                    state.columns.inProgressColumn?.push(todo!)
+                    state.columns.openColumn = state.columns.openColumn?.filter((todo) => todo.id !== action.payload.id) || null
+                } else if (from === TodoStatus.Done) {
+                    const todo = state.columns.completedColumn?.find((todo) => todo.id === action.payload.id)
+                    state.columns.inProgressColumn?.push(todo!)
+                    state.columns.completedColumn = state.columns.completedColumn?.filter((todo) => todo.id !== action.payload.id) || null
+                }
+            } else if (to === TodoStatus.Done) {
+                if (from === TodoStatus.Open) {
+                    const todo = state.columns.openColumn?.find((todo) => todo.id === action.payload.id)
+                    state.columns.completedColumn?.push(todo!)
+                    state.columns.openColumn = state.columns.openColumn?.filter((todo) => todo.id !== action.payload.id) || null
+                } else if (from === TodoStatus.In_Progress) {
+                    const todo = state.columns.inProgressColumn?.find((todo) => todo.id === action.payload.id)
+                    state.columns.completedColumn?.push(todo!)
+                    state.columns.inProgressColumn = state.columns.inProgressColumn?.filter((todo) => todo.id !== action.payload.id) || null
+                }
             }
         }
     },
@@ -80,7 +118,9 @@ const todoSlice = createSlice({
             .addCase(getTodos.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.todos = action.payload;
-                state.columns.openColumn = action.payload
+                state.columns.openColumn = action.payload?.filter((todo) => todo.status == TodoStatus.Open) || null;
+                state.columns.inProgressColumn = action.payload?.filter((todo) => todo.status == TodoStatus.In_Progress) || null;
+                state.columns.completedColumn = action.payload?.filter((todo) => todo.status == TodoStatus.Done) || null;
             })
             .addCase(getTodos.rejected, (state, action) => {
                 state.isLoading = false;
@@ -90,7 +130,10 @@ const todoSlice = createSlice({
             .addCase(createTodo.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.todos = action.payload;
-                state.columns.openColumn = action.payload;
+            })
+            .addCase(updateTodoStatus.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.todos = action.payload;
             })
     }
 });
