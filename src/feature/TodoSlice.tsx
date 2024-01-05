@@ -134,6 +134,9 @@ const todoSlice = createSlice({
             .addCase(updateTodoStatus.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.todos = action.payload;
+                state.columns.openColumn = action.payload?.filter((todo) => todo.status == TodoStatus.Open) || null;
+                state.columns.inProgressColumn = action.payload?.filter((todo) => todo.status == TodoStatus.In_Progress) || null;
+                state.columns.completedColumn = action.payload?.filter((todo) => todo.status == TodoStatus.Done) || null;
             })
     }
 });
