@@ -1,22 +1,16 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import '../components/Column.css'
-import { AppDispatch, RootState } from '../../app/Store';
+import { RootState } from '../../app/Store';
 import TodoCard from './TodoCard';
-import { TodoStatus } from '../constants/TodoStatus';
-import { moveTodo } from '../feature/TodoSlice';
 
 function Done() {
     const completedTodos = useSelector((state: RootState) => state.todos.columns.completedColumn)
-    const dispatch = useDispatch<AppDispatch>()
-    const handleClick = (id: number) => {
-        dispatch(moveTodo({ id: id, to: TodoStatus.Done }))
-    }
     return (
         <>
             <div className="container">
                 <div className="column">
                     {completedTodos?.map((todo) => (
-                        <TodoCard todo={todo} key={todo.id} onCardClick={() => handleClick} />
+                        <TodoCard todo={todo} key={todo.id} />
                     ))}
                 </div>
             </div>
