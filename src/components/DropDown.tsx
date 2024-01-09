@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../app/Store';
 import { moveTodo, updateTodoStatus } from '../feature/TodoSlice';
+import '../components/DropDown.css';
 
 interface TodoProps {
     todoId: number

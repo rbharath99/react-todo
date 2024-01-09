@@ -1,0 +1,14 @@
+.dropdown-options {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .dropdown-options li {
+    padding: 8px 16px;
+    background-color: #000000;
+    cursor: pointer;
+  }
+  
+  .dropdown-options li:hover {
+    background-color: #474747;
+  }
