@@ -10,18 +10,16 @@ interface TodoProps {
 
 function DropDown({ todoId, todoStatus }: TodoProps) {
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-    const [selectedOption, setSelectedOption] = useState<string>(todoStatus);
     const handleButtonClick = () => setIsDropdownOpen(!isDropdownOpen);
     const handleOptionClick = (option: string) => {
         dispatch(moveTodo({ id: todoId, from: todoStatus, to: option }))
         dispatch(updateTodoStatus({ id: todoId, status: option }))
-        setSelectedOption(option);
         setIsDropdownOpen(false);
     };
     const dispatch = useDispatch<AppDispatch>();
     return (
         <button className="dropdown-button" onClick={handleButtonClick}>
-            {selectedOption}
+            {todoStatus}
             {/* Arrow icon or symbol indicating dropdown functionality */}
             {isDropdownOpen && (
                 <ul className="dropdown-options">
