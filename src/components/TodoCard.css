@@ -6,6 +6,8 @@
     background-color: #000000;
     border: 1px solid #ccc;
     margin-bottom: 10px;
+    width: 15vw;
+    height: 15vh;
 }
 
 .todo-title {
