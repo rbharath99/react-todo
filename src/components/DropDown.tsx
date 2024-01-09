@@ -21,7 +21,6 @@ function DropDown({ todoId, todoStatus }: TodoProps) {
     return (
         <button className="dropdown-button" onClick={handleButtonClick}>
             {todoStatus}
-            {/* Arrow icon or symbol indicating dropdown functionality */}
             {isDropdownOpen && (
                 <ul className="dropdown-options">
                     <li onClick={() => handleOptionClick('OPEN')}>Open</li>
