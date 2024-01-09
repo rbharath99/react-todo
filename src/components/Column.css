@@ -15,3 +15,16 @@
 .column {
     overflow-y: auto;
 }
+
+.column::-webkit-scrollbar {
+    width: 10px;
+}
+
+.column::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 5px;
+}
+
+.column::-webkit-scrollbar-track {
+    background-color: #ddd;
+}
