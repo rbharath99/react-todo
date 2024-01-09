@@ -20,7 +20,7 @@ function DropDown({ todoId, todoStatus }: TodoProps) {
     const dispatch = useDispatch<AppDispatch>();
     return (
         <button className="dropdown-button" onClick={handleButtonClick}>
-            {todoStatus}
+            {todoStatus.replace("_", " ")}
             {isDropdownOpen && (
                 <ul className="dropdown-options">
                     <li onClick={() => handleOptionClick('OPEN')}>Open</li>
